@@ -1,0 +1,26 @@
+.ant-card {
+    &__title {
+        display: flex;
+        align-items: center;
+
+        img {
+            height: 24px;
+            margin-right: 5px;
+        }
+
+        p {
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    &__description {
+        margin: 0;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 4;
+        overflow: hidden;
+    }
+}

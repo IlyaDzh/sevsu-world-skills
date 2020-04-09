@@ -11,14 +11,21 @@ const App = ({ isAuth }) => (
                 exact
                 path={[
                     "/",
-                    "/students",
-                    "/student/:id",
+                    "/profile",
+                    "/tasks",
+                    "/completed-tasks",
+                    "/my-tasks",
                     "/task/:id",
-                    "/task/edit/:id"
+                    "/students",
+                    "/student/:id"
                 ]}
                 render={() => (isAuth ? <Home /> : <Redirect to="/signin" />)}
             />
-            <Route render={() => <div>Error</div>} />
+            <Route
+                render={() =>
+                    isAuth ? <div>Error</div> : <Redirect to="/signin" />
+                }
+            />
         </Switch>
     </div>
 );
