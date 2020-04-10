@@ -1,6 +1,7 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 
+import { Error } from "components";
 import { Auth, Home } from "pages";
 
 const App = ({ isAuth }) => (
@@ -23,7 +24,11 @@ const App = ({ isAuth }) => (
             />
             <Route
                 render={() =>
-                    isAuth ? <div>Error</div> : <Redirect to="/signin" />
+                    isAuth ? (
+                        <Error status={404} title={404} />
+                    ) : (
+                        <Redirect to="/signin" />
+                    )
                 }
             />
         </Switch>

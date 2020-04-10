@@ -1,0 +1,14 @@
+.student {
+    &-info {
+        margin-bottom: 35px;
+        font-size: 15px;
+
+        &__item {
+            margin-bottom: 15px;
+            
+            h4 {
+                margin-bottom: 0;
+            }
+        }
+    }
+}

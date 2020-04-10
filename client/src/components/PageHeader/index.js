@@ -12,7 +12,8 @@ const routes = {
     "completed-tasks": "Решенные задачи",
     "my-tasks": "Мои задачи",
     "task": "Задача",
-    "students": "Все студенты"
+    "students": "Все студенты",
+    "student": "Студент"
 };
 
 const PageHeader = withRouter(({ collapsed, toggleCollapsed, location }) => (

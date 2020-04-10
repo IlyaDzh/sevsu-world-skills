@@ -5,6 +5,14 @@
     height: 100%;
 }
 
-.ant-col {
+.card-row {
     padding: 8px;
+}
+
+.divider {
+
+    &:before,
+    &:after {
+        border-top: 1px solid #cacaca !important;
+    }
 }

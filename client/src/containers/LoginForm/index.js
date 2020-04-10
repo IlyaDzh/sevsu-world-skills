@@ -1,7 +1,15 @@
 import { withFormik } from "formik";
+import * as Yup from "yup";
 
 import { LoginForm as BaseLoginForm } from "components";
-import validationSchema from "utils/validationSchema";
+
+const validationSchema = Yup.object({
+    email: Yup.string().email("Неверный E-mail!").required("Обязательное поле"),
+    password: Yup.string()
+        .min(8, "Пароль слишком маленький")
+        .max(15, "Пароль слишком большой")
+        .required("Обязательное поле")
+});
 
 const LoginForm = withFormik({
     enableReinitialize: true,
