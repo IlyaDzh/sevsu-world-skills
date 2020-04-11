@@ -1,29 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import { Row } from "antd";
 
+import { studentsActions } from "actions";
 import { CardStudent } from "components";
 
-const Students = () => {
-    return (
-        <Row>
-            <CardStudent
-                _id="1"
-                fullname="Илья Долженко"
-                info="https://github.com/ilyadzh"
-            />
-            <CardStudent
-                _id="2"
-                fullname="Максим Иванов"
-                info="https://github.com/maksim-ivanov"
-            />
-            <CardStudent _id="3" fullname="Юрий Волобуев" />
-            <CardStudent
-                _id="4"
-                fullname="Дмитрий Ларин"
-                info="Мой ютуб канал: https://www.youtube.com/user/larinshow"
-            />
-        </Row>
+const Students = ({ fetchStudents, students, error, isLoading }) => {
+    useEffect(() => {
+        if (!students.length) {
+            fetchStudents();
+        }
+    }, [students]);
+
+    return isLoading ? (
+        <div>loading...</div>
+    ) : error ? (
+        <div>Ошибка</div>
+    ) : (
+        students.length && (
+            <Row>
+                {students.map(item => (
+                    <CardStudent key={item._id} {...item} />
+                ))}
+            </Row>
+        )
     );
 };
 
-export default Students;
+export default connect(
+    ({ students }) => ({
+        students: students.items,
+        error: students.error,
+        isLoading: students.isLoading
+    }),
+    studentsActions
+)(Students);

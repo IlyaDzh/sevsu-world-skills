@@ -1,31 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { connect } from "react-redux";
 
+import { studentsActions } from "actions";
 import { Student as BaseStudent } from "components";
 
-const Student = () => {
-    return (
-        <div>
-            <BaseStudent
-                email="ilay00@mail.ru"
-                fullname="Илья Долженко"
-                info="Мой GitHub: https://github.com/ilyadzh, ВКонтакте: https://vk.com/id43336530"
-                tasks={[
-                    {
-                        _id: "234hgf923mfg3l",
-                        language: "js",
-                        title: "ReactCode",
-                        description: "Сделать приложение для хранения кода студентов"
-                    },
-                    {
-                        _id: "234hgf23mfg3l",
-                        language: "js",
-                        title: "ReactCode",
-                        description: "Сделать приложение для хранения кода студентов"
-                    }
-                ]}
-            />
-        </div>
+const Student = ({ fetchCurrentStudent, student, error, isLoading }) => {
+    const { id } = useParams();
+
+    useEffect(() => {
+        fetchCurrentStudent(id);
+    }, [id]);
+
+    return isLoading ? (
+        <div>loading...</div>
+    ) : error ? (
+        <div>Ошибка</div>
+    ) : (
+        student && <BaseStudent {...student} />
     );
 };
 
-export default Student;
+export default connect(
+    ({ students }) => ({
+        student: students.currentItem,
+        error: students.error,
+        isLoading: students.isLoading
+    }),
+    studentsActions
+)(Student);

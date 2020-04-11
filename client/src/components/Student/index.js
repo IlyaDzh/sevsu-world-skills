@@ -18,7 +18,7 @@ const Student = ({ email, fullname, info, tasks }) => (
             </div>
             <div className="student-info__item">
                 <h4>Информация:</h4>
-                <p>{info}</p>
+                <p>{info || "Информация отсутствует"}</p>
             </div>
         </div>
         <div className="student-tasks">

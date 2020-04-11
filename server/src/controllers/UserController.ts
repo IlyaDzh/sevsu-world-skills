@@ -29,14 +29,17 @@ class UserController {
 
     getMe = (req: any, res: express.Response) => {
         // const id: string = req.user && req.user._id;
-        // UserModel.findById(id, (err, user: IUser) => {
-        //     if (err || !user) {
-        //         return res.status(404).json({
-        //             message: "User not found"
-        //         });
-        //     }
-        //     res.status(200).json(user);
-        // });
+        const id: string = "5e8cb5060c25d21a5c27b78e";
+        UserModel.findById(id)
+            .populate("tasks")
+            .exec((err, user: IUser) => {
+                if (err || !user) {
+                    return res.status(404).json({
+                        message: "User not found"
+                    });
+                }
+                res.status(200).json(user);
+            });
     };
 
     create(req: express.Request, res: express.Response) {
@@ -78,6 +81,27 @@ class UserController {
                 });
             }
         });
+    }
+
+    update(req: express.Request, res: express.Response) {
+        const id: string = req.params.id;
+        const postData = {
+            fullname: req.body.fullname,
+            password: req.body.password,
+            info: req.body.info
+        };
+        UserModel.findByIdAndUpdate(
+            id,
+            { $set: postData },
+            { new: true },
+            (err, user) => {
+                if (err) {
+                    return res.status(404).json({ message: "User not found" });
+                }
+
+                res.status(200).json(user);
+            }
+        );
     }
 }
 

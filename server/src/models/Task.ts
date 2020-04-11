@@ -29,7 +29,10 @@ const TaskSchema = new Schema(
             type: Boolean,
             default: false
         },
-        language: String
+        language: {
+            type: String,
+            required: "Language is required!"
+        },
     },
     {
         timestamps: true

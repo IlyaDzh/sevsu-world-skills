@@ -4,7 +4,7 @@ import { Layout } from "antd";
 import { CodeOutlined } from "@ant-design/icons";
 
 import { LinkMenu, PageHeader } from "components";
-import { Profile, Tasks, Task, Students, Student } from "containers";
+import { Profile, Tasks, Task, MyTasks, Students, Student } from "containers";
 import "./Home.scss";
 
 const Home = () => {
@@ -27,7 +27,7 @@ const Home = () => {
                 trigger={null}
                 collapsed={collapsed}
                 style={{ overflow: "auto" }}
-                width={220}
+                width={210}
                 collapsible
             >
                 <div className="aside__logo">
@@ -50,11 +50,7 @@ const Home = () => {
                             path="/completed-tasks"
                             render={() => <div>Completed tasks</div>}
                         />
-                        <Route
-                            exact
-                            path="/my-tasks"
-                            render={() => <div>My tasks</div>}
-                        />
+                        <Route exact path="/my-tasks" component={MyTasks} />
                         <Route exact path="/task/:id" component={Task} />
                         <Route exact path="/students" component={Students} />
                         <Route exact path="/student/:id" component={Student} />

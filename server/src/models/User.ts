@@ -5,6 +5,7 @@ export interface IUser extends Document {
     fullname: string;
     email: string;
     password: string;
+    info: string;
     tasks: Array<Object>;
 }
 
@@ -24,6 +25,7 @@ const UserSchema = new Schema(
             type: String,
             required: "Password is required"
         },
+        info: String,
         tasks: [
             {
                 type: Schema.Types.ObjectId,

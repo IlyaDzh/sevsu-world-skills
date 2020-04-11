@@ -2,13 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Divider } from "antd";
-import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
-import js from 'react-syntax-highlighter/dist/esm/languages/hljs/javascript';
-import docco from 'react-syntax-highlighter/dist/esm/styles/hljs/docco';
+import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
+import js from "react-syntax-highlighter/dist/esm/languages/hljs/javascript";
+import docco from "react-syntax-highlighter/dist/esm/styles/hljs/docco";
 
 import "./Task.scss";
 
-SyntaxHighlighter.registerLanguage('javascript', js);
+SyntaxHighlighter.registerLanguage("javascript", js);
 
 const Task = ({ owner: { _id, fullname }, language, title, description, code }) => (
     <div className="task">

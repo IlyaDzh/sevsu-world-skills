@@ -1,6 +1,7 @@
 .card-task {
+    $self: &;
     height: 100%;
-    
+
     &__title {
         display: flex;
         align-items: center;
@@ -19,10 +20,22 @@
     }
 
     &__description {
-        margin: 0;
+        margin: 0 0 10px 0;
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 4;
         overflow: hidden;
+    }
+
+    &__footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+
+        #{$self}__date {
+            font-weight: 500;
+            opacity: 0.85;
+        }
     }
 }
