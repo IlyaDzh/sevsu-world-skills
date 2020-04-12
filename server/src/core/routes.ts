@@ -3,10 +3,12 @@ import bodyParser from "body-parser";
 import cors from "cors";
 
 import { UserController, TaskController } from "../controllers";
+import { checkAuth } from "../middlewares";
 
 const createRoutes = (app: express.Express) => {
     app.use(cors());
     app.use(bodyParser.json());
+    app.use(checkAuth);
 
     const User = new UserController();
     const Task = new TaskController();

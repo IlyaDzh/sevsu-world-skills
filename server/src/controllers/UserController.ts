@@ -1,7 +1,9 @@
 import express from "express";
+import bcrypt from "bcrypt";
 
 import { UserModel } from "../models";
 import { IUser } from "../models/User";
+import { createJWTToken } from "../utils";
 
 class UserController {
     showAll = (req: express.Request, res: express.Response) => {
@@ -71,9 +73,11 @@ class UserController {
                 });
             }
 
-            if (user.password === postData.password) {
+            if (bcrypt.compareSync(postData.password, user.password)) {
+                const token = createJWTToken(user);
                 res.status(200).json({
-                    message: "You are logged in"
+                    status: "Success",
+                    token
                 });
             } else {
                 res.status(401).json({
