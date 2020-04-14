@@ -2,14 +2,8 @@ import { withFormik } from "formik";
 import * as Yup from "yup";
 
 import { LoginForm as BaseLoginForm } from "components";
-
-const validationSchema = Yup.object({
-    email: Yup.string().email("Неверный E-mail!").required("Обязательное поле"),
-    password: Yup.string()
-        .min(8, "Пароль слишком маленький")
-        .max(15, "Пароль слишком большой")
-        .required("Обязательное поле")
-});
+import { userActions } from "actions";
+import store from "store";
 
 const LoginForm = withFormik({
     enableReinitialize: true,
@@ -17,10 +11,22 @@ const LoginForm = withFormik({
         email: "",
         password: ""
     }),
-    validationSchema,
-    handleSubmit: (values, { setSubmitting }) => {
-        console.log(values);
-        setSubmitting(false);
+    validationSchema: Yup.object({
+        email: Yup.string().email("Неверный E-mail").required("Обязательное поле"),
+        password: Yup.string().required("Обязательное поле")
+    }),
+    handleSubmit: (values, { setSubmitting, props }) => {
+        store
+            .dispatch(userActions.fetchUserSignIn(values))
+            .then(({ status }) => {
+                if (status === "Success") {
+                    setSubmitting(true);
+                    props.history.push("/");
+                }
+            })
+            .catch(() => {
+                setSubmitting(false);
+            });
     }
 })(BaseLoginForm);
 

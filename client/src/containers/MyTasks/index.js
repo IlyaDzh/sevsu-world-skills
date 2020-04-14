@@ -5,18 +5,14 @@ import { Row } from "antd";
 import { userActions } from "actions";
 import { CardTask } from "components";
 
-const MyTasks = ({ fetchUserData, data, error, isLoading }) => {
+const MyTasks = ({ fetchUserData, data }) => {
     useEffect(() => {
         if (!data) {
             fetchUserData();
         }
     }, [data]);
 
-    return isLoading ? (
-        <div>loading...</div>
-    ) : error ? (
-        <div>Ошибка</div>
-    ) : (
+    return (
         data &&
         data.tasks &&
         data.tasks.length && (
@@ -33,9 +29,7 @@ const MyTasks = ({ fetchUserData, data, error, isLoading }) => {
 
 export default connect(
     ({ user }) => ({
-        data: user.data,
-        error: user.error,
-        isLoading: user.isLoading
+        data: user.data
     }),
     userActions
 )(MyTasks);

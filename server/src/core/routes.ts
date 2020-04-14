@@ -18,7 +18,7 @@ const createRoutes = (app: express.Express) => {
     app.get("/user/:id", User.showById);
     app.post("/user/signup", User.create);
     app.post("/user/signin", User.login);
-    app.put("/user/:id", User.update);
+    app.put("/user", User.update);
 
     app.get("/task/all", Task.showAll);
     app.get("/task/:id", Task.showById);

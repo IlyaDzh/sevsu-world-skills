@@ -30,9 +30,8 @@ class UserController {
     };
 
     getMe = (req: any, res: express.Response) => {
-        // const id: string = req.user && req.user._id;
-        const id: string = "5e8cb5060c25d21a5c27b78e";
-        UserModel.findById(id)
+        const userId = req.user._id;
+        UserModel.findById(userId)
             .populate("tasks")
             .exec((err, user: IUser) => {
                 if (err || !user) {
@@ -87,15 +86,15 @@ class UserController {
         });
     }
 
-    update(req: express.Request, res: express.Response) {
-        const id: string = req.params.id;
+    update(req: any, res: express.Response) {
+        const userId = req.user._id;
         const postData = {
             fullname: req.body.fullname,
             password: req.body.password,
             info: req.body.info
         };
         UserModel.findByIdAndUpdate(
-            id,
+            userId,
             { $set: postData },
             { new: true },
             (err, user) => {

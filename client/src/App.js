@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Switch, Route, Redirect } from "react-router-dom";
 
 import { Error } from "components";
@@ -35,8 +36,4 @@ const App = ({ isAuth }) => (
     </div>
 );
 
-App.defaultProps = {
-    isAuth: true
-};
-
-export default App;
+export default connect(({ user }) => ({ isAuth: user.isAuth }))(App);
