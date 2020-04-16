@@ -10,7 +10,7 @@ const Task = ({ fetchCurrentTask, task, error, isLoading }) => {
 
     useEffect(() => {
         fetchCurrentTask(id);
-    }, [id]);
+    }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return isLoading ? (
         <div>loading...</div>

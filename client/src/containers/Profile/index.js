@@ -11,7 +11,7 @@ const Profile = ({ fetchUserData, data }) => {
         if (!data) {
             fetchUserData();
         }
-    }, [data]);
+    }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return data && <ProfileEnhancer data={data} />;
 };

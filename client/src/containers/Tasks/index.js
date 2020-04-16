@@ -10,7 +10,7 @@ const Tasks = ({ fetchTasks, tasks, error, isLoading }) => {
         if (!tasks.length) {
             fetchTasks();
         }
-    }, [tasks]);
+    }, [tasks]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return isLoading ? (
         <div>loading...</div>

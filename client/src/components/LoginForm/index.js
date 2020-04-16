@@ -13,7 +13,6 @@ const LoginForm = ({
     handleChange,
     handleBlur,
     handleSubmit,
-    isValid,
     isSubmitting
 }) => (
     <div className="auth__content">
@@ -59,7 +58,6 @@ const LoginForm = ({
                     />
                 </Form.Item>
                 <Form.Item>
-                    {isSubmitting && !isValid && <span>Ошибка!</span>}
                     <Button
                         disabled={isSubmitting}
                         onClick={handleSubmit}

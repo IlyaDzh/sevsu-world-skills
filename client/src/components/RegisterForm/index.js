@@ -13,7 +13,6 @@ const RegisterForm = ({
     handleChange,
     handleBlur,
     handleSubmit,
-    isValid,
     isSubmitting
 }) => (
     <div className="auth__content">
@@ -94,7 +93,6 @@ const RegisterForm = ({
                     />
                 </Form.Item>
                 <Form.Item>
-                    {isSubmitting && !isValid && <span>Ошибка!</span>}
                     <Button
                         disabled={isSubmitting}
                         onClick={handleSubmit}

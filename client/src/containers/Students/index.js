@@ -10,7 +10,7 @@ const Students = ({ fetchStudents, students, error, isLoading }) => {
         if (!students.length) {
             fetchStudents();
         }
-    }, [students]);
+    }, [students]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return isLoading ? (
         <div>loading...</div>

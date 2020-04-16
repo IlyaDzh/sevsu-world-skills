@@ -13,7 +13,6 @@ const Profile = ({
     handleChange,
     handleBlur,
     handleSubmit,
-    isValid,
     isSubmitting
 }) => (
     <Form onSubmit={handleSubmit} className="profile-form">
@@ -58,7 +57,7 @@ const Profile = ({
             />
         </Form.Item>
         <Form.Item
-            className='profile-form__textarea'
+            className="profile-form__textarea"
             validateStatus={validateField("info", touched, errors)}
             help={!touched.info ? null : errors.info}
             hasFeedback
@@ -73,7 +72,6 @@ const Profile = ({
             />
         </Form.Item>
         <Form.Item>
-            {isSubmitting && !isValid && <span>Ошибка!</span>}
             <Button
                 disabled={isSubmitting}
                 onClick={handleSubmit}

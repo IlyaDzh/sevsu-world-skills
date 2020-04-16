@@ -3,24 +3,26 @@ import bcrypt from "bcrypt";
 
 import { UserModel } from "../models";
 import { IUser } from "../models/User";
-import { createJWTToken } from "../utils";
+import { createJWTToken, checkOnNull } from "../utils";
 
 class UserController {
     showAll = (req: express.Request, res: express.Response) => {
-        UserModel.find({}, (err, users: IUser) => {
-            if (err || !users) {
-                return res.status(404).json({
-                    message: "Users not found"
-                });
-            }
-            res.status(200).json(users);
-        });
+        UserModel.find()
+            .sort({ createdAt: -1 })
+            .exec((err, users: IUser) => {
+                if (err || !users) {
+                    return res.status(404).json({
+                        message: "Users not found"
+                    });
+                }
+                res.status(200).json(users);
+            });
     };
 
     showById = (req: express.Request, res: express.Response) => {
         const id: string = req.params.id;
         UserModel.findById(id)
-            .populate("tasks")
+            .populate({ path: "tasks", options: { sort: { createdAt: -1 } } })
             .exec((err, user: IUser) => {
                 if (err) {
                     return res.status(404).json({ message: "User not found" });
@@ -30,9 +32,9 @@ class UserController {
     };
 
     getMe = (req: any, res: express.Response) => {
-        const userId = req.user._id;
+        const userId: string = req.user._id;
         UserModel.findById(userId)
-            .populate("tasks")
+            .populate({ path: "tasks", options: { sort: { createdAt: -1 } } })
             .exec((err, user: IUser) => {
                 if (err || !user) {
                     return res.status(404).json({
@@ -44,7 +46,7 @@ class UserController {
     };
 
     create(req: express.Request, res: express.Response) {
-        const postData = {
+        const postData: any = {
             fullname: req.body.fullname,
             email: req.body.email,
             password: req.body.password
@@ -60,7 +62,7 @@ class UserController {
     }
 
     login(req: express.Request, res: express.Response) {
-        const postData = {
+        const postData: any = {
             email: req.body.email,
             password: req.body.password
         };
@@ -73,7 +75,7 @@ class UserController {
             }
 
             if (bcrypt.compareSync(postData.password, user.password)) {
-                const token = createJWTToken(user);
+                const token: string = createJWTToken(user);
                 res.status(200).json({
                     status: "Success",
                     token
@@ -87,12 +89,13 @@ class UserController {
     }
 
     update(req: any, res: express.Response) {
-        const userId = req.user._id;
-        const postData = {
+        const userId: string = req.user._id;
+        const postData: any = {
             fullname: req.body.fullname,
             password: req.body.password,
             info: req.body.info
         };
+        checkOnNull(postData);
         UserModel.findByIdAndUpdate(
             userId,
             { $set: postData },

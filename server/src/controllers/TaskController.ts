@@ -6,6 +6,7 @@ import { ITask } from "../models/Task";
 class TaskController {
     showAll = (req: express.Request, res: express.Response) => {
         TaskModel.find()
+            .sort({ createdAt: -1 })
             .populate("owner", "fullname")
             .exec((err, tasks: ITask) => {
                 if (err || !tasks) {
@@ -30,7 +31,7 @@ class TaskController {
     };
 
     create(req: any, res: express.Response) {
-        const userId = req.user._id;
+        const userId: string = req.user._id;
         const postData = {
             owner: userId,
             title: req.body.title,
@@ -42,24 +43,18 @@ class TaskController {
         const Task = new TaskModel(postData);
         Task.save()
             .then((obj: any) => {
-                obj.populate("owner", "fullname", (err: any, task: any) => {
-                    if (err) {
-                        return res.status(404).json({ message: err });
-                    }
-
-                    UserModel.findOneAndUpdate(
-                        { _id: postData.owner },
-                        { $push: { tasks: task._id } },
-                        { upsert: true },
-                        err => {
-                            if (err) {
-                                return res.status(500).json({ message: err });
-                            }
+                UserModel.findOneAndUpdate(
+                    { _id: postData.owner },
+                    { $push: { tasks: obj._id } },
+                    { upsert: true },
+                    err => {
+                        if (err) {
+                            return res.status(500).json({ message: err });
                         }
-                    );
+                    }
+                );
 
-                    res.status(200).json(task);
-                });
+                res.status(200).json(obj);
             })
             .catch(reason => {
                 res.status(500).json({ message: reason.message });

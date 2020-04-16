@@ -10,7 +10,7 @@ const Student = ({ fetchCurrentStudent, student, error, isLoading }) => {
 
     useEffect(() => {
         fetchCurrentStudent(id);
-    }, [id]);
+    }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return isLoading ? (
         <div>loading...</div>
