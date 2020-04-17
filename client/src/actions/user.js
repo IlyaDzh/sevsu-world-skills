@@ -6,23 +6,22 @@ const actions = {
         type: "USER:SET_DATA",
         payload: data
     }),
+    setCompletedTasks: tasks => ({
+        type: "USER:SET_COMPLETED_TASKS",
+        payload: tasks
+    }),
     setTasks: tasks => ({
         type: "USER:SET_TASKS",
         payload: tasks
-    }),
-    addTask: task => ({
-        type: "USER:ADD_TASK",
-        payload: task
     }),
     setIsAuth: bool => ({
         type: "USER:SET_IS_AUTH",
         payload: bool
     }),
-    addUserTask: postData => dispatch => {
+    addUserTask: postData => () => {
         return userApi
             .addTask(postData)
             .then(({ data }) => {
-                dispatch(actions.addTask(data));
                 openNotification({
                     title: "Отлично",
                     text: "Ваша задача была добавлена!",
@@ -41,8 +40,9 @@ const actions = {
     fetchUserData: () => dispatch => {
         userApi
             .getMe()
-            .then(({ data: { tasks, ...info } }) => {
+            .then(({ data: { tasks, completed_tasks, ...info } }) => {
                 dispatch(actions.setData(info));
+                dispatch(actions.setCompletedTasks(completed_tasks));
                 dispatch(actions.setTasks(tasks));
             })
             .catch(err => {

@@ -32,11 +32,13 @@ const Task = ({ owner: { _id, fullname }, language, title, description, code }) 
         </div>
         <div className="solution">
             <Divider className="divider" orientation="left">
-                Решение
+                {code ? "Решение" : "Решение отсутствует"}
             </Divider>
-            <SyntaxHighlighter language="javascript" style={docco}>
-                {code}
-            </SyntaxHighlighter>
+            {code && (
+                <SyntaxHighlighter language="javascript" style={docco}>
+                    {code}
+                </SyntaxHighlighter>
+            )}
         </div>
     </div>
 );

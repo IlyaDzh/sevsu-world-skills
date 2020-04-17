@@ -21,7 +21,7 @@ class UserController {
 
     showById = (req: express.Request, res: express.Response) => {
         const id: string = req.params.id;
-        UserModel.findById(id)
+        UserModel.findById(id, "_id fullname email info tasks")
             .populate({ path: "tasks", options: { sort: { createdAt: -1 } } })
             .exec((err, user: IUser) => {
                 if (err) {
@@ -34,13 +34,21 @@ class UserController {
     getMe = (req: any, res: express.Response) => {
         const userId: string = req.user._id;
         UserModel.findById(userId)
-            .populate({ path: "tasks", options: { sort: { createdAt: -1 } } })
+            .populate({
+                path: "tasks",
+                options: { sort: { createdAt: -1 } }
+            })
+            .populate("completed_tasks.task", "_id title description language createdAt")
             .exec((err, user: IUser) => {
                 if (err || !user) {
                     return res.status(404).json({
-                        message: "User not found"
+                        message: err
                     });
                 }
+                user.completed_tasks.sort((a: any, b: any) => {
+                    return a.task.createdAt < b.task.createdAt ? 1 : -1;
+                });
+
                 res.status(200).json(user);
             });
     };

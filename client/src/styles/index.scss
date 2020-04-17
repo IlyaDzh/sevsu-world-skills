@@ -16,3 +16,22 @@
         border-top: 1px solid #cacaca !important;
     }
 }
+
+.ant-card-hoverable {
+    cursor: auto;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 7px;
+
+    &-track {
+        background-color: #e7e7e7;
+        border-radius: 3px;
+    }
+
+    &-thumb {
+        background-color: #c0c0c0;
+        border-radius: 3px;
+    }
+}

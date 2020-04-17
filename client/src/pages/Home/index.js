@@ -4,7 +4,15 @@ import { Layout } from "antd";
 import { CodeOutlined } from "@ant-design/icons";
 
 import { LinkMenu, PageHeader } from "components";
-import { Profile, Tasks, Task, MyTasks, Students, Student } from "containers";
+import {
+    Profile,
+    Tasks,
+    Task,
+    CompletedTasks,
+    MyTasks,
+    Students,
+    Student
+} from "containers";
 import "./Home.scss";
 
 const Home = () => {
@@ -45,11 +53,7 @@ const Home = () => {
                     <Switch>
                         <Route exact path="/profile" component={Profile} />
                         <Route exact path={["/", "/tasks"]} component={Tasks} />
-                        <Route
-                            exact
-                            path="/completed-tasks"
-                            render={() => <div>Completed tasks</div>}
-                        />
+                        <Route exact path="/completed" component={CompletedTasks} />
                         <Route exact path="/my-tasks" component={MyTasks} />
                         <Route exact path="/task/:id" component={Task} />
                         <Route exact path="/students" component={Students} />

@@ -9,7 +9,7 @@ import "./PageHeader.scss";
 const routes = {
     "profile": "Мой профиль",
     "tasks": "Все задачи",
-    "completed-tasks": "Решенные задачи",
+    "completed": "Решенные задачи",
     "my-tasks": "Мои задачи",
     "task": "Задача",
     "students": "Все студенты",

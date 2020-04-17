@@ -32,9 +32,9 @@ const LinkMenu = withRouter(({ location }) => (
                 Все задачи
                 <Link to="/tasks" />
             </Item>
-            <Item key="/completed-tasks">
+            <Item key="/completed">
                 Решенные задачи
-                <Link to="/completed-tasks" />
+                <Link to="/completed" />
             </Item>
             <Item key="/my-tasks">
                 Мои задачи

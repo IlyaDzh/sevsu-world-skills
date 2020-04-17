@@ -5,10 +5,26 @@ import * as Yup from "yup";
 import { Modal, Form, Input, Button } from "antd";
 import { EditOutlined, InfoOutlined } from "@ant-design/icons";
 
-import { userActions } from "actions";
+import { userActions, tasksActions } from "actions";
 import { validateField } from "utils/helpers";
 
-const ModalAddTask = ({ visible, setVisible, addUserTask }) => (
+// TODO:
+// Селект языков в модалке
+// Удаление задачи
+// Регистрация (+ редирект на страницу входа после удачной регистрации)
+// Кнопка выхода в профиле
+// Обновление данных пользователя в профиле
+// Решение задачи
+// При входе делается два раза запрос
+// Возможно добавить появляющуюся боковую панель или просто уменьшить ее размер
+
+const ModalAddTask = ({
+    visible,
+    setVisible,
+    addUserTask,
+    fetchUserData,
+    fetchTasks
+}) => (
     <Formik
         enableReinitialize={true}
         initialValues={{
@@ -28,6 +44,8 @@ const ModalAddTask = ({ visible, setVisible, addUserTask }) => (
                 .then(() => {
                     setVisible(false);
                     resetForm();
+                    fetchUserData();
+                    fetchTasks();
                 })
                 .catch(() => {
                     setSubmitting(false);
@@ -131,4 +149,4 @@ const ModalAddTask = ({ visible, setVisible, addUserTask }) => (
     </Formik>
 );
 
-export default connect(null, userActions)(ModalAddTask);
+export default connect(null, { ...userActions, ...tasksActions })(ModalAddTask);

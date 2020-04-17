@@ -8,6 +8,7 @@ export interface IUser extends Document {
     password: string;
     info: string;
     tasks: Array<Object>;
+    completed_tasks: Array<Object>;
 }
 
 const UserSchema = new Schema(
@@ -31,6 +32,15 @@ const UserSchema = new Schema(
             {
                 type: Schema.Types.ObjectId,
                 ref: "Task"
+            }
+        ],
+        completed_tasks: [
+            {
+                task: {
+                    type: Schema.Types.ObjectId,
+                    ref: "Task"
+                },
+                solution: String
             }
         ]
     },

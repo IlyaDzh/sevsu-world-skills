@@ -15,7 +15,7 @@ const App = ({ isAuth }) => (
                     "/",
                     "/profile",
                     "/tasks",
-                    "/completed-tasks",
+                    "/completed",
                     "/my-tasks",
                     "/task/:id",
                     "/students",

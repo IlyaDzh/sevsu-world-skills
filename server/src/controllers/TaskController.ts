@@ -37,15 +37,22 @@ class TaskController {
             title: req.body.title,
             description: req.body.description,
             code: req.body.code,
-            performed: req.body.performed,
             language: req.body.language
         };
         const Task = new TaskModel(postData);
         Task.save()
             .then((obj: any) => {
+                const updateData: any = { $push: { tasks: obj._id } };
+                if (postData.code) {
+                    updateData.$push.completed_tasks = {
+                        task: obj._id,
+                        solution: postData.code
+                    };
+                }
+
                 UserModel.findOneAndUpdate(
                     { _id: postData.owner },
-                    { $push: { tasks: obj._id } },
+                    updateData,
                     { upsert: true },
                     err => {
                         if (err) {
@@ -67,7 +74,6 @@ class TaskController {
             title: req.body.title,
             description: req.body.description,
             code: req.body.code,
-            performed: req.body.performed,
             language: req.body.language
         };
         TaskModel.findByIdAndUpdate(id, { $set: postData }, { new: true })

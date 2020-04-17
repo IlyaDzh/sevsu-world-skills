@@ -5,7 +5,6 @@ export interface ITask extends Document {
     title: string;
     description: string;
     code: string;
-    performed: boolean;
     language: string;
 }
 
@@ -25,14 +24,10 @@ const TaskSchema = new Schema(
             required: "Description is required!"
         },
         code: String,
-        performed: {
-            type: Boolean,
-            default: false
-        },
         language: {
             type: String,
             required: "Language is required!"
-        },
+        }
     },
     {
         timestamps: true

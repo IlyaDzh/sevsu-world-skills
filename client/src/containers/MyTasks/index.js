@@ -6,7 +6,7 @@ import { userActions } from "actions";
 import { Button, CardTask } from "components";
 import { ModalAddTask } from "containers";
 
-const MyTasks = ({ fetchUserData, tasks }) => {
+const MyTasks = ({ fetchUserData, tasks, completed_tasks }) => {
     const [visible, setVisible] = useState(false);
 
     useEffect(() => {
@@ -29,11 +29,14 @@ const MyTasks = ({ fetchUserData, tasks }) => {
             {tasks && tasks.length ? (
                 <Row>
                     {tasks.map(item => (
-                        <CardTask key={item._id} {...item} performed={true} />
-                        // TODO:
-                        // таск должен содержать массив id, которые выполнили задание
-                        // performed={item.performed.include(data._id)}
-                        // добавить футер для удаления карточкb если это наша задача
+                        <CardTask
+                            key={item._id}
+                            completed={completed_tasks.some(
+                                _ => _.task._id === item._id
+                            )}
+                            isMy={true}
+                            {...item}
+                        />
                     ))}
                 </Row>
             ) : (
@@ -46,7 +49,8 @@ const MyTasks = ({ fetchUserData, tasks }) => {
 
 export default connect(
     ({ user }) => ({
-        tasks: user.tasks
+        tasks: user.tasks,
+        completed_tasks: user.completed_tasks
     }),
     userActions
 )(MyTasks);

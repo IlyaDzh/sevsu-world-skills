@@ -3,6 +3,7 @@ export { default as RegisterForm } from "./RegisterForm";
 export { default as Profile } from "./Profile";
 export { default as Tasks } from "./Tasks";
 export { default as Task } from "./Task";
+export { default as CompletedTasks } from "./CompletedTasks";
 export { default as MyTasks } from "./MyTasks";
 export { default as ModalAddTask } from "./ModalAddTask";
 export { default as Students } from "./Students";

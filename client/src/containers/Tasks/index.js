@@ -2,10 +2,23 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Row } from "antd";
 
-import { tasksActions } from "actions";
+import { tasksActions, userActions } from "actions";
 import { CardTask } from "components";
 
-const Tasks = ({ fetchTasks, tasks, error, isLoading }) => {
+const Tasks = ({
+    fetchTasks,
+    fetchUserData,
+    tasks,
+    completed_tasks,
+    error,
+    isLoading
+}) => {
+    useEffect(() => {
+        if (!completed_tasks.length) {
+            fetchUserData();
+        }
+    }, [completed_tasks]); // eslint-disable-line react-hooks/exhaustive-deps
+
     useEffect(() => {
         if (!tasks.length) {
             fetchTasks();
@@ -20,7 +33,13 @@ const Tasks = ({ fetchTasks, tasks, error, isLoading }) => {
         tasks.length && (
             <Row>
                 {tasks.map(item => (
-                    <CardTask key={item._id} {...item} performed={true} />
+                    <CardTask
+                        key={item._id}
+                        completed={completed_tasks.some(
+                            _ => _.task._id === item._id
+                        )}
+                        {...item}
+                    />
                 ))}
             </Row>
         )
@@ -28,10 +47,14 @@ const Tasks = ({ fetchTasks, tasks, error, isLoading }) => {
 };
 
 export default connect(
-    ({ tasks }) => ({
+    ({ tasks, user }) => ({
         tasks: tasks.items,
+        completed_tasks: user.completed_tasks,
         error: tasks.error,
         isLoading: tasks.isLoading
     }),
-    tasksActions
+    {
+        ...tasksActions,
+        ...userActions
+    }
 )(Tasks);

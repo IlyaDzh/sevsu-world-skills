@@ -5,7 +5,7 @@ import { Divider, Row, Empty } from "antd";
 import { CardTask } from "components";
 import "./Student.scss";
 
-const Student = ({ email, fullname, info, tasks }) => (
+const Student = ({ email, fullname, info, tasks, completed_tasks }) => (
     <div className="student">
         <div className="student-info">
             <div className="student-info__item">
@@ -28,7 +28,15 @@ const Student = ({ email, fullname, info, tasks }) => (
             <div className="student-tasks__list">
                 <Row>
                     {tasks.length ? (
-                        tasks.map(item => <CardTask key={item._id} {...item} />)
+                        tasks.map(item => (
+                            <CardTask
+                                key={item._id}
+                                completed={completed_tasks.some(
+                                    _ => _.task._id === item._id
+                                )}
+                                {...item}
+                            />
+                        ))
                     ) : (
                         <Empty
                             style={{ margin: "0 auto" }}
@@ -45,7 +53,8 @@ Student.propTypes = {
     email: PropTypes.string,
     fullname: PropTypes.string,
     info: PropTypes.string,
-    tasks: PropTypes.array
+    tasks: PropTypes.array,
+    completed_tasks: PropTypes.array
 };
 
 export default Student;
