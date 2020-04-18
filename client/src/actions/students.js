@@ -40,9 +40,6 @@ const actions = {
                 dispatch(actions.setIsLoading(false));
                 dispatch(actions.setError(true));
             });
-    },
-    fetchUpdateStudent: (id, data) => () => {
-        return studentsApi.updateStudent(id, data);
     }
 };
 

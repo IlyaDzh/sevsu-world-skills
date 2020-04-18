@@ -8,8 +8,8 @@ class TaskController {
         TaskModel.find()
             .sort({ createdAt: -1 })
             .populate("owner", "fullname")
-            .exec((err, tasks: ITask) => {
-                if (err || !tasks) {
+            .exec((err, tasks: ITask[]) => {
+                if (err || !tasks.length) {
                     return res.status(404).json({
                         message: "Tasks not found"
                     });
@@ -94,7 +94,7 @@ class TaskController {
                 if (task) {
                     UserModel.findOneAndUpdate(
                         { _id: task.owner },
-                        { $pull: { tasks: id } },
+                        { $pull: { tasks: id, completed_tasks: { task: id } } },
                         { upsert: true },
                         err => {
                             if (err) {

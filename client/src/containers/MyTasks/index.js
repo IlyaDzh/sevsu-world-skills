@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { Row } from "antd";
+import { Row, Empty } from "antd";
 
-import { userActions } from "actions";
+import { userActions, tasksActions } from "actions";
 import { Button, CardTask } from "components";
 import { ModalAddTask } from "containers";
 
-const MyTasks = ({ fetchUserData, tasks, completed_tasks }) => {
+const MyTasks = ({
+    deleteTask,
+    fetchTasks,
+    fetchUserData,
+    tasks,
+    completed_tasks
+}) => {
     const [visible, setVisible] = useState(false);
 
     useEffect(() => {
@@ -14,6 +20,15 @@ const MyTasks = ({ fetchUserData, tasks, completed_tasks }) => {
             fetchUserData();
         }
     }, [tasks]); // eslint-disable-line react-hooks/exhaustive-deps
+
+    const handleDelete = id => {
+        deleteTask(id)
+            .then(() => {
+                fetchUserData();
+                fetchTasks();
+            })
+            .catch(() => {});
+    };
 
     return (
         <div className="my-tasks">
@@ -35,12 +50,13 @@ const MyTasks = ({ fetchUserData, tasks, completed_tasks }) => {
                                 _ => _.task._id === item._id
                             )}
                             isMy={true}
+                            handleDelete={handleDelete}
                             {...item}
                         />
                     ))}
                 </Row>
             ) : (
-                <div>Загрузка...</div>
+                <Empty style={{ margin: "0 auto" }} description="Нет задач" />
             )}
             <ModalAddTask visible={visible} setVisible={setVisible} />
         </div>
@@ -52,5 +68,5 @@ export default connect(
         tasks: user.tasks,
         completed_tasks: user.completed_tasks
     }),
-    userActions
+    { ...userActions, ...tasksActions }
 )(MyTasks);

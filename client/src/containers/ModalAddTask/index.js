@@ -2,21 +2,11 @@ import React from "react";
 import { connect } from "react-redux";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { Modal, Form, Input, Button } from "antd";
+import { Modal, Form, Input, Select, Button } from "antd";
 import { EditOutlined, InfoOutlined } from "@ant-design/icons";
 
 import { userActions, tasksActions } from "actions";
 import { validateField } from "utils/helpers";
-
-// TODO:
-// Селект языков в модалке
-// Удаление задачи
-// Регистрация (+ редирект на страницу входа после удачной регистрации)
-// Кнопка выхода в профиле
-// Обновление данных пользователя в профиле
-// Решение задачи
-// При входе делается два раза запрос
-// Возможно добавить появляющуюся боковую панель или просто уменьшить ее размер
 
 const ModalAddTask = ({
     visible,
@@ -59,7 +49,9 @@ const ModalAddTask = ({
             handleChange,
             handleBlur,
             handleSubmit,
-            isSubmitting
+            isSubmitting,
+            setFieldTouched,
+            setFieldValue
         }) => (
             <Modal
                 title="Добавление новой задачи"
@@ -102,16 +94,24 @@ const ModalAddTask = ({
                         help={!touched.language ? null : errors.language}
                         hasFeedback
                     >
-                        <Input
+                        <Select
                             name="language"
-                            prefix={
-                                <EditOutlined style={{ color: "rgba(0,0,0,.25)" }} />
-                            }
-                            placeholder="Язык"
-                            value={values.language}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                        />
+                            placeholder="Выберите язык программирования"
+                            onChange={value => setFieldValue("language", value)}
+                            onBlur={() => setFieldTouched("language", true)}
+                        >
+                            <Select.Option value="js">Java Script</Select.Option>
+                            <Select.Option value="ts">Type Script</Select.Option>
+                            <Select.Option value="php">PHP</Select.Option>
+                            <Select.Option value="c++">C++</Select.Option>
+                            <Select.Option value="c-sharp">C#</Select.Option>
+                            <Select.Option value="go">Go</Select.Option>
+                            <Select.Option value="python">Python</Select.Option>
+                            <Select.Option value="ruby">Ruby</Select.Option>
+                            <Select.Option value="java">Java</Select.Option>
+                            <Select.Option value="kotlin">Kotlin</Select.Option>
+                            <Select.Option value="css">CSS</Select.Option>
+                        </Select>
                     </Form.Item>
                     <Form.Item
                         validateStatus={validateField(

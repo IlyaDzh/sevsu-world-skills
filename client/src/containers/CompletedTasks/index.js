@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { Row } from "antd";
+import { Row, Empty } from "antd";
 
 import { userActions } from "actions";
 import { CardTask } from "components";
@@ -21,7 +21,7 @@ const CompletedTasks = ({ fetchUserData, completed_tasks }) => {
                     ))}
                 </Row>
             ) : (
-                <div>Загрузка...</div>
+                <Empty style={{ margin: "0 auto" }} description="Нет задач" />
             )}
         </div>
     );

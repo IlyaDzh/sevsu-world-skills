@@ -45,7 +45,7 @@ const Profile = ({
             help={!touched.password ? null : errors.password}
             hasFeedback
         >
-            <Input
+            <Input.Password
                 name="password"
                 prefix={<LockOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
                 size="large"
@@ -64,7 +64,7 @@ const Profile = ({
         >
             <Input.TextArea
                 name="info"
-                rows={3}
+                autoSize={{ minRows: 3, maxRows: 7 }}
                 placeholder="Информация о себе"
                 value={values.info}
                 onChange={handleChange}

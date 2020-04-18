@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { Row } from "antd";
+import { Row, Empty } from "antd";
 
 import { tasksActions, userActions } from "actions";
 import { CardTask } from "components";
@@ -8,10 +8,10 @@ import { CardTask } from "components";
 const Tasks = ({
     fetchTasks,
     fetchUserData,
+    setError,
     tasks,
     completed_tasks,
-    error,
-    isLoading
+    error
 }) => {
     useEffect(() => {
         if (!completed_tasks.length) {
@@ -23,14 +23,13 @@ const Tasks = ({
         if (!tasks.length) {
             fetchTasks();
         }
+        return () => setError(false);
     }, [tasks]); // eslint-disable-line react-hooks/exhaustive-deps
 
-    return isLoading ? (
-        <div>loading...</div>
-    ) : error ? (
-        <div>Ошибка</div>
+    return error ? (
+        <Empty style={{ margin: "0 auto" }} description="Нет задач" />
     ) : (
-        tasks.length && (
+        tasks && tasks.length ? (
             <Row>
                 {tasks.map(item => (
                     <CardTask
@@ -42,7 +41,7 @@ const Tasks = ({
                     />
                 ))}
             </Row>
-        )
+        ) : null
     );
 };
 
@@ -50,8 +49,7 @@ export default connect(
     ({ tasks, user }) => ({
         tasks: tasks.items,
         completed_tasks: user.completed_tasks,
-        error: tasks.error,
-        isLoading: tasks.isLoading
+        error: tasks.error
     }),
     {
         ...tasksActions,

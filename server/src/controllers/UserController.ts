@@ -9,8 +9,8 @@ class UserController {
     showAll = (req: express.Request, res: express.Response) => {
         UserModel.find()
             .sort({ createdAt: -1 })
-            .exec((err, users: IUser) => {
-                if (err || !users) {
+            .exec((err, users: IUser[]) => {
+                if (err || !users.length) {
                     return res.status(404).json({
                         message: "Users not found"
                     });
@@ -38,16 +38,21 @@ class UserController {
                 path: "tasks",
                 options: { sort: { createdAt: -1 } }
             })
-            .populate("completed_tasks.task", "_id title description language createdAt")
+            .populate(
+                "completed_tasks.task",
+                "_id title description language createdAt"
+            )
             .exec((err, user: IUser) => {
                 if (err || !user) {
                     return res.status(404).json({
                         message: err
                     });
                 }
-                user.completed_tasks.sort((a: any, b: any) => {
-                    return a.task.createdAt < b.task.createdAt ? 1 : -1;
-                });
+                if (user.completed_tasks.length) {
+                    user.completed_tasks.sort((a: any, b: any) => {
+                        return a.task.createdAt < b.task.createdAt ? 1 : -1;
+                    });
+                }
 
                 res.status(200).json(user);
             });
@@ -100,10 +105,11 @@ class UserController {
         const userId: string = req.user._id;
         const postData: any = {
             fullname: req.body.fullname,
-            password: req.body.password,
-            info: req.body.info
+            password: req.body.password
         };
         checkOnNull(postData);
+        postData.info = req.body.info;
+        
         UserModel.findByIdAndUpdate(
             userId,
             { $set: postData },

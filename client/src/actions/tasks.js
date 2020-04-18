@@ -1,4 +1,5 @@
 import { tasksApi } from "utils/api";
+import { openNotification } from "utils/helpers";
 
 const actions = {
     setTasks: items => ({
@@ -13,32 +14,42 @@ const actions = {
         type: "TASKS:SET_ERROR",
         payload: bool
     }),
-    setIsLoading: bool => ({
-        type: "TASKS:SET_IS_LOADING",
-        payload: bool
-    }),
     fetchTasks: () => dispatch => {
-        dispatch(actions.setIsLoading(true));
         tasksApi
             .getTasks()
             .then(({ data }) => {
                 dispatch(actions.setTasks(data));
             })
             .catch(() => {
-                dispatch(actions.setIsLoading(false));
                 dispatch(actions.setError(true));
             });
     },
     fetchCurrentTask: id => dispatch => {
-        dispatch(actions.setIsLoading(true));
         tasksApi
             .getCurrentTask(id)
             .then(({ data }) => {
                 dispatch(actions.setCurrentTask(data));
             })
             .catch(() => {
-                dispatch(actions.setIsLoading(false));
                 dispatch(actions.setError(true));
+            });
+    },
+    deleteTask: id => dispatch => {
+        return tasksApi
+            .deleteTask(id)
+            .then(() => {
+                openNotification({
+                    title: "Отлично",
+                    text: "Ваша задача была удалена!",
+                    type: "success"
+                });
+            })
+            .catch(() => {
+                openNotification({
+                    title: "Ошибка",
+                    text: "Упс. Попробуйте позже.",
+                    type: "error"
+                });
             });
     }
 };

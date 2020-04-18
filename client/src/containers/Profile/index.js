@@ -4,7 +4,8 @@ import { withFormik } from "formik";
 import * as Yup from "yup";
 
 import { Profile as BaseProfile } from "components";
-import { userActions } from "actions";
+import { userActions, studentsActions } from "actions";
+import store from "store";
 
 const Profile = ({ fetchUserData, data }) => {
     useEffect(() => {
@@ -32,7 +33,15 @@ const ProfileEnhancer = withFormik({
         info: Yup.string().max(300, "Слишком много информации")
     }),
     handleSubmit: (values, { setSubmitting }) => {
-        console.log(values);
+        store
+            .dispatch(userActions.updateUserData(values))
+            .then(() => {
+                store.dispatch(studentsActions.fetchStudents());
+                setSubmitting(false);
+            })
+            .catch(() => {
+                setSubmitting(false);
+            });
         setSubmitting(false);
     }
 })(BaseProfile);

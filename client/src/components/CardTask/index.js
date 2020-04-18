@@ -14,7 +14,8 @@ const CardTask = ({
     description,
     createdAt,
     completed,
-    isMy
+    isMy,
+    handleDelete
 }) => (
     <Col className="card-row" xs={24} sm={12} md={8} lg={8} xl={6}>
         <BaseCard
@@ -27,7 +28,16 @@ const CardTask = ({
                 </span>
             }
             extra={<Link to={`/task/${_id}`}>Перейти</Link>}
-            actions={isMy ? [<DeleteOutlined key="delete" />] : []}
+            actions={
+                isMy
+                    ? [
+                          <DeleteOutlined
+                              key="delete"
+                              onClick={() => handleDelete(_id)}
+                          />
+                      ]
+                    : []
+            }
             hoverable
         >
             <p className="card-task__description">{description}</p>
@@ -52,7 +62,8 @@ CardTask.propTypes = {
     description: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
     completed: PropTypes.bool,
-    isMy: PropTypes.bool
+    isMy: PropTypes.bool,
+    handleDelete: PropTypes.func
 };
 
 export default CardTask;
