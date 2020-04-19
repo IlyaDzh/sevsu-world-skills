@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Row, Empty } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 import { userActions, tasksActions } from "actions";
 import { Button, CardTask } from "components";
 import { ModalAddTask } from "containers";
+import { modalConfirm } from "utils/helpers";
 
 const MyTasks = ({
     deleteTask,
@@ -22,12 +24,18 @@ const MyTasks = ({
     }, [tasks]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleDelete = id => {
-        deleteTask(id)
-            .then(() => {
-                fetchUserData();
-                fetchTasks();
-            })
-            .catch(() => {});
+        modalConfirm({
+            title: "Вы точно хотите удалить задачу?",
+            icon: <ExclamationCircleOutlined />,
+            okText: "Удалить",
+            okType: "danger",
+            onOk: () => {
+                deleteTask(id).then(() => {
+                    fetchUserData();
+                    fetchTasks();
+                });
+            }
+        });
     };
 
     return (

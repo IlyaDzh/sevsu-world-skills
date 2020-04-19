@@ -3,11 +3,12 @@ import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { studentsActions, userActions } from "actions";
-import { Student as BaseStudent } from "components";
+import { Student as BaseStudent, Error } from "components";
 
 const Student = ({
     fetchCurrentStudent,
     fetchUserData,
+    setError,
     student,
     completed_tasks,
     error,
@@ -23,12 +24,13 @@ const Student = ({
 
     useEffect(() => {
         fetchCurrentStudent(id);
+        return () => setError(false);
     }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return isLoading ? (
         <div>loading...</div>
     ) : error ? (
-        <div>Ошибка</div>
+        <Error status={404} title={404} />
     ) : (
         student && <BaseStudent completed_tasks={completed_tasks} {...student} />
     );

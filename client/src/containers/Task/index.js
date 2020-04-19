@@ -2,11 +2,24 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { tasksActions } from "actions";
-import { Task as BaseTask } from "components";
+import { tasksActions, userActions } from "actions";
+import { Task as BaseTask, Error } from "components";
 
-const Task = ({ fetchCurrentTask, task, error, isLoading }) => {
+const Task = ({
+    fetchCurrentTask,
+    fetchUserData,
+    task,
+    completed_tasks,
+    error,
+    isLoading
+}) => {
     const { id } = useParams();
+
+    useEffect(() => {
+        if (!completed_tasks.length) {
+            fetchUserData();
+        }
+    }, [completed_tasks]); // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
         fetchCurrentTask(id);
@@ -15,17 +28,27 @@ const Task = ({ fetchCurrentTask, task, error, isLoading }) => {
     return isLoading ? (
         <div>loading...</div>
     ) : error ? (
-        <div>Ошибка</div>
+        <Error status={404} title={404} />
     ) : (
-        task && <BaseTask {...task} />
+        task &&
+        completed_tasks && (
+            <BaseTask
+                {...task}
+                find={completed_tasks.find(item => item.task._id === task._id)}
+            />
+        )
     );
 };
 
 export default connect(
-    ({ tasks }) => ({
+    ({ tasks, user }) => ({
         task: tasks.currentItem,
+        completed_tasks: user.completed_tasks,
         error: tasks.error,
         isLoading: tasks.isLoading
     }),
-    tasksActions
+    {
+        ...tasksActions,
+        ...userActions
+    }
 )(Task);

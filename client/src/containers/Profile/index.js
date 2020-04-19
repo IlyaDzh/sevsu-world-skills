@@ -7,14 +7,18 @@ import { Profile as BaseProfile } from "components";
 import { userActions, studentsActions } from "actions";
 import store from "store";
 
-const Profile = ({ fetchUserData, data }) => {
+const Profile = ({ fetchUserData, fetchUserSignOut, data }) => {
     useEffect(() => {
         if (!data) {
             fetchUserData();
         }
     }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
-    return data && <ProfileEnhancer data={data} />;
+    const handleSignOut = () => {
+        fetchUserSignOut();
+    };
+
+    return data && <ProfileEnhancer data={data} handleSignOut={handleSignOut} />;
 };
 
 const ProfileEnhancer = withFormik({
@@ -42,7 +46,6 @@ const ProfileEnhancer = withFormik({
             .catch(() => {
                 setSubmitting(false);
             });
-        setSubmitting(false);
     }
 })(BaseProfile);
 

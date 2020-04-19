@@ -4,7 +4,7 @@ export interface ITask extends Document {
     owner: string;
     title: string;
     description: string;
-    code: string;
+    // code: string;
     language: string;
 }
 
@@ -23,7 +23,7 @@ const TaskSchema = new Schema(
             type: String,
             required: "Description is required!"
         },
-        code: String,
+        // code: String,
         language: {
             type: String,
             required: "Language is required!"

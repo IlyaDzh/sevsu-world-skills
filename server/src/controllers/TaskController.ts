@@ -36,17 +36,19 @@ class TaskController {
             owner: userId,
             title: req.body.title,
             description: req.body.description,
-            code: req.body.code,
+            // code: req.body.code,
             language: req.body.language
         };
         const Task = new TaskModel(postData);
         Task.save()
             .then((obj: any) => {
                 const updateData: any = { $push: { tasks: obj._id } };
-                if (postData.code) {
+                // if (postData.code) {
+                if (req.body.code) {
                     updateData.$push.completed_tasks = {
                         task: obj._id,
-                        solution: postData.code
+                        solution: req.body.code
+                        // solution: postData.code
                     };
                 }
 
@@ -69,22 +71,22 @@ class TaskController {
     }
 
     update(req: express.Request, res: express.Response) {
-        const id: string = req.params.id;
-        const postData = {
-            title: req.body.title,
-            description: req.body.description,
-            code: req.body.code,
-            language: req.body.language
-        };
-        TaskModel.findByIdAndUpdate(id, { $set: postData }, { new: true })
-            .populate("owner", "fullname")
-            .exec((err, task) => {
-                if (err) {
-                    return res.status(404).json({ message: "Task not found" });
-                }
+        // const id: string = req.params.id;
+        // const postData = {
+        //     title: req.body.title,
+        //     description: req.body.description,
+        //     code: req.body.code,
+        //     language: req.body.language
+        // };
+        // TaskModel.findByIdAndUpdate(id, { $set: postData }, { new: true })
+        //     .populate("owner", "fullname")
+        //     .exec((err, task) => {
+        //         if (err) {
+        //             return res.status(404).json({ message: "Task not found" });
+        //         }
 
-                res.status(200).json(task);
-            });
+        //         res.status(200).json(task);
+        //     });
     }
 
     delete(req: express.Request, res: express.Response) {

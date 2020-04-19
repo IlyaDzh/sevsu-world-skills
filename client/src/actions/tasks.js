@@ -34,7 +34,7 @@ const actions = {
                 dispatch(actions.setError(true));
             });
     },
-    deleteTask: id => dispatch => {
+    deleteTask: id => () => {
         return tasksApi
             .deleteTask(id)
             .then(() => {

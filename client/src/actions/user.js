@@ -29,7 +29,7 @@ const actions = {
                 });
                 return data;
             })
-            .catch(err => {
+            .catch(() => {
                 openNotification({
                     title: "Ошибка",
                     text: "Упс. Попробуйте позже.",
@@ -49,7 +49,7 @@ const actions = {
                     dispatch(actions.setCompletedTasks(completed_tasks));
                 }
             })
-            .catch(err => {
+            .catch(() => {
                 dispatch(actions.setIsAuth(false));
                 delete window.localStorage.token;
             });
@@ -73,6 +73,9 @@ const actions = {
                 });
             });
     },
+    fetchUserSignUp: postData => () => {
+        return userApi.signUp(postData);
+    },
     fetchUserSignIn: postData => dispatch => {
         return userApi
             .signIn(postData)
@@ -89,13 +92,22 @@ const actions = {
                 dispatch(actions.setIsAuth(true));
                 return data;
             })
-            .catch(err => {
+            .catch(() => {
                 openNotification({
                     title: "Ошибка при авторизации",
                     text: "Неверный логин или пароль!",
                     type: "error"
                 });
             });
+    },
+    fetchUserSignOut: () => dispatch => {
+        dispatch(actions.setIsAuth(false));
+        delete window.localStorage.token;
+        openNotification({
+            title: "Отлично",
+            text: "Вы вышли из системы!",
+            type: "success"
+        });
     }
 };
 

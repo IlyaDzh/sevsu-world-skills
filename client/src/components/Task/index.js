@@ -10,7 +10,7 @@ import "./Task.scss";
 
 SyntaxHighlighter.registerLanguage("javascript", js);
 
-const Task = ({ owner: { _id, fullname }, language, title, description, code }) => (
+const Task = ({ owner: { _id, fullname }, language, title, description, find }) => (
     <div className="task">
         <div className="task-info">
             <div className="task-info__item">
@@ -32,11 +32,11 @@ const Task = ({ owner: { _id, fullname }, language, title, description, code }) 
         </div>
         <div className="solution">
             <Divider className="divider" orientation="left">
-                {code ? "Решение" : "Решение отсутствует"}
+                {find && find.solution ? "Решение" : "Решение отсутствует"}
             </Divider>
-            {code && (
+            {find && find.solution && (
                 <SyntaxHighlighter language="javascript" style={docco}>
-                    {code}
+                    {find.solution}
                 </SyntaxHighlighter>
             )}
         </div>

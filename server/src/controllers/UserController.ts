@@ -109,7 +109,7 @@ class UserController {
         };
         checkOnNull(postData);
         postData.info = req.body.info;
-        
+
         UserModel.findByIdAndUpdate(
             userId,
             { $set: postData },
