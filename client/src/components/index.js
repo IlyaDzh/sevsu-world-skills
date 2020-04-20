@@ -1,12 +1,8 @@
 export { default as Block } from "./Block";
 export { default as Button } from "./Button";
-export { default as LoginForm } from "./LoginForm";
-export { default as RegisterForm } from "./RegisterForm";
+export { default as Modal } from "./Modal";
 export { default as LinkMenu } from "./LinkMenu";
 export { default as PageHeader } from "./PageHeader";
-export { default as Profile } from "./Profile";
 export { default as CardTask } from "./CardTask";
-export { default as Task } from "./Task";
 export { default as CardStudent } from "./CardStudent";
-export { default as Student } from "./Student";
 export { default as Error } from "./Error";

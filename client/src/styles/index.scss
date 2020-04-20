@@ -21,6 +21,13 @@
     cursor: auto;
 }
 
+.ant-spin {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 ::-webkit-scrollbar {
     width: 8px;
     height: 7px;

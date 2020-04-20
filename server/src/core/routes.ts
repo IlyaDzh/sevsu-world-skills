@@ -23,7 +23,7 @@ const createRoutes = (app: express.Express) => {
     app.get("/task/all", Task.showAll);
     app.get("/task/:id", Task.showById);
     app.post("/task/create", Task.create);
-    app.put("/task/:id", Task.update);
+    app.put("/task/:id", Task.addSolution);
     app.delete("/task/:id", Task.delete);
 };
 

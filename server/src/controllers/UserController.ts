@@ -48,11 +48,6 @@ class UserController {
                         message: err
                     });
                 }
-                if (user.completed_tasks.length) {
-                    user.completed_tasks.sort((a: any, b: any) => {
-                        return a.task.createdAt < b.task.createdAt ? 1 : -1;
-                    });
-                }
 
                 res.status(200).json(user);
             });
@@ -110,18 +105,22 @@ class UserController {
         checkOnNull(postData);
         postData.info = req.body.info;
 
-        UserModel.findByIdAndUpdate(
-            userId,
-            { $set: postData },
-            { new: true },
-            (err, user) => {
+        UserModel.findByIdAndUpdate(userId, { $set: postData }, { new: true })
+            .populate({
+                path: "tasks",
+                options: { sort: { createdAt: -1 } }
+            })
+            .populate(
+                "completed_tasks.task",
+                "_id title description language createdAt"
+            )
+            .exec((err, user) => {
                 if (err) {
                     return res.status(404).json({ message: "User not found" });
                 }
 
                 res.status(200).json(user);
-            }
-        );
+            });
     }
 }
 

@@ -7,12 +7,12 @@ import { LinkMenu, PageHeader } from "components";
 import {
     Profile,
     Tasks,
-    Task,
     CompletedTasks,
     MyTasks,
+    Task,
     Students,
     Student
-} from "containers";
+} from "modules";
 import "./Home.scss";
 
 const Home = () => {

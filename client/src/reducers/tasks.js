@@ -1,7 +1,8 @@
 const initialState = {
-    items: [],
+    items: null,
     currentItem: null,
-    error: false
+    error: false,
+    isLoading: false
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -22,6 +23,11 @@ export default (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 error: payload
+            };
+        case "TASKS:SET_IS_LOADING":
+            return {
+                ...state,
+                isLoading: payload
             };
         default:
             return state;

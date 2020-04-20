@@ -2,9 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { Modal, Form, Input, Select, Button } from "antd";
+import { Form, Input, Select } from "antd";
 import { EditOutlined, InfoOutlined } from "@ant-design/icons";
 
+import { Modal } from "components";
 import { userActions, tasksActions } from "actions";
 import { validateField } from "utils/helpers";
 
@@ -56,21 +57,10 @@ const ModalAddTask = ({
             <Modal
                 title="Добавление новой задачи"
                 visible={visible}
-                onCancel={() => setVisible(false)}
-                footer={[
-                    <Button key="back" onClick={() => setVisible(false)}>
-                        Назад
-                    </Button>,
-                    <Button
-                        key="submit"
-                        type="primary"
-                        disabled={isSubmitting}
-                        onClick={() => handleSubmit()}
-                    >
-                        Создать
-                    </Button>
-                ]}
-                centered
+                setVisible={setVisible}
+                isSubmitting={isSubmitting}
+                handleSubmit={handleSubmit}
+                okText="Создать"
             >
                 <Form onSubmit={handleSubmit}>
                     <Form.Item
@@ -136,7 +126,7 @@ const ModalAddTask = ({
                     <Form.Item>
                         <Input.TextArea
                             name="code"
-                            rows={4}
+                            autoSize={{ minRows: 4, maxRows: 8 }}
                             placeholder="Вставьте код, чтобы решить задачу"
                             value={values.code}
                             onChange={handleChange}

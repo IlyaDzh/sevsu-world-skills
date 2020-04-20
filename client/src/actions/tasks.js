@@ -14,23 +14,30 @@ const actions = {
         type: "TASKS:SET_ERROR",
         payload: bool
     }),
+    setIsLoading: bool => ({
+        type: "TASKS:SET_IS_LOADING",
+        payload: bool
+    }),
     fetchTasks: () => dispatch => {
+        dispatch(actions.setIsLoading(true));
         tasksApi
             .getTasks()
             .then(({ data }) => {
                 dispatch(actions.setTasks(data));
             })
             .catch(() => {
-                dispatch(actions.setError(true));
+                dispatch(actions.setIsLoading(false));
             });
     },
     fetchCurrentTask: id => dispatch => {
+        dispatch(actions.setIsLoading(true));
         tasksApi
             .getCurrentTask(id)
             .then(({ data }) => {
                 dispatch(actions.setCurrentTask(data));
             })
             .catch(() => {
+                dispatch(actions.setIsLoading(false));
                 dispatch(actions.setError(true));
             });
     },

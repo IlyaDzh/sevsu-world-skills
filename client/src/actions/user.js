@@ -6,16 +6,12 @@ const actions = {
         type: "USER:SET_DATA",
         payload: data
     }),
-    setCompletedTasks: tasks => ({
-        type: "USER:SET_COMPLETED_TASKS",
-        payload: tasks
-    }),
-    setTasks: tasks => ({
-        type: "USER:SET_TASKS",
-        payload: tasks
-    }),
     setIsAuth: bool => ({
         type: "USER:SET_IS_AUTH",
+        payload: bool
+    }),
+    setIsLoading: bool => ({
+        type: "USER:SET_IS_LOADING",
         payload: bool
     }),
     addUserTask: postData => () => {
@@ -37,19 +33,33 @@ const actions = {
                 });
             });
     },
-    fetchUserData: () => dispatch => {
-        userApi
-            .getMe()
-            .then(({ data: { tasks, completed_tasks, ...info } }) => {
-                dispatch(actions.setData(info));
-                if (tasks.length) {
-                    dispatch(actions.setTasks(tasks));
-                }
-                if (completed_tasks.length) {
-                    dispatch(actions.setCompletedTasks(completed_tasks));
-                }
+    addTaskSolution: (id, postData) => () => {
+        return tasksApi
+            .addSolution(id, postData)
+            .then(() => {
+                openNotification({
+                    title: "Отлично",
+                    text: "Ваше решение было добавлено!",
+                    type: "success"
+                });
             })
             .catch(() => {
+                openNotification({
+                    title: "Ошибка",
+                    text: "Упс. Попробуйте позже.",
+                    type: "error"
+                });
+            });
+    },
+    fetchUserData: () => dispatch => {
+        dispatch(actions.setIsLoading(true));
+        userApi
+            .getMe()
+            .then(({ data }) => {
+                dispatch(actions.setData(data));
+            })
+            .catch(() => {
+                dispatch(actions.setIsLoading(false));
                 dispatch(actions.setIsAuth(false));
                 delete window.localStorage.token;
             });
