@@ -1,5 +1,4 @@
 {
-    "homepage": "https://ilyadzh.github.io/sevsu-world-skills",
     "name": "sevsu-world-skills",
     "version": "0.1.0",
     "private": true,
@@ -36,7 +35,6 @@
         "file-loader": "4.3.0",
         "formik": "^2.1.4",
         "fs-extra": "^8.1.0",
-        "gh-pages": "^2.2.0",
         "html-webpack-plugin": "4.0.0-beta.11",
         "identity-obj-proxy": "3.0.0",
         "jest": "24.9.0",
@@ -79,9 +77,7 @@
     "scripts": {
         "start": "node scripts/start.js",
         "build": "node scripts/build.js",
-        "test": "node scripts/test.js",
-        "predeploy": "npm run build",
-        "deploy": "gh-pages -d build"
+        "test": "node scripts/test.js"
     },
     "eslintConfig": {
         "extends": "react-app"
