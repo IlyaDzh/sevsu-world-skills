@@ -5,13 +5,7 @@ import { Row, Empty, Spin } from "antd";
 import { tasksActions, userActions } from "actions";
 import { CardTask } from "components";
 
-const Tasks = ({
-    fetchTasks,
-    fetchUserData,
-    tasks,
-    completed_tasks,
-    isLoading
-}) => {
+const Tasks = ({ fetchTasks, fetchUserData, tasks, completed_tasks, isLoading }) => {
     useEffect(() => {
         if (!completed_tasks) {
             fetchUserData();
@@ -31,7 +25,10 @@ const Tasks = ({
             {tasks.map(item => (
                 <CardTask
                     key={item._id}
-                    completed={completed_tasks.some(_ => _.task._id === item._id)}
+                    completed={
+                        completed_tasks &&
+                        completed_tasks.some(_ => _.task._id === item._id)
+                    }
                     {...item}
                 />
             ))}
